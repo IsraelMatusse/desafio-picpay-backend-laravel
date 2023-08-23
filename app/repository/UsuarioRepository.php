@@ -4,15 +4,26 @@ namespace App\Repository;
 
 use App\Models\Usuario;
 
-class UserRepository{
+class UsuarioRepository {
 
 public function create (array $data){
     return Usuario::create($data);
 }
 
+
+public function findAll(){
+    return Usuario::all();
+}
+
 public function findById($id){
     return Usuario::find($id);
 }
+public function findByEmail($email){
+    return $this->Usuario->newQuery()
+    ->where('email', '=', $email->toString())
+    ->firstOrFail();
+}
+
 public function deleteById($id){
     $Usuario=$this->findById($id);
     if($Usuario){
@@ -20,12 +31,9 @@ public function deleteById($id){
     }
     return null;
 }
-public function updateById($id){
-   $Usuario=$this->findById($id);
-   if($Usuario){
-    $Usuario->delete();
-   }
-   return null;
+public function update(array $data){
+    $Usuario->edit($data);
+  
 }
 }
 

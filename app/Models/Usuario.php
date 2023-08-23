@@ -16,10 +16,7 @@ class Usuario extends Model
         'password',
         'bi',
         'balance',
-        'user-type'
+        'user_type'
     ];
-    public static $rules = [
-        'email' => 'required|email|unique:Usuario',
-        'email'=>'required|bi|unique:Usuario'
-    ];
+  
 }
