@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transacao extends Model
 {
+    protected $fillable=[
+
+    ];
     use HasFactory;
 }
