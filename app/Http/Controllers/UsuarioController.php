@@ -16,11 +16,14 @@ class UsuarioController extends Controller
     public function index(){
         return $this->usuarioService->findAll();
     }
-    public function create(Request $request){
+    public function store(Request $request){
 
         $data=$request->all();
         $usuario=$this->usuarioService->createUsuario($data);
-        return response()->json(['message' => 'Usuário criado com sucesso', 'data' => $usuario], 201);
-       
+        return response()->json(['message' => 'Usuário criado com sucesso', 'data' => $usuario], 201); 
+    }
+
+    public function show($id){
+        return $this->usuarioService->findUsuarioById($id);
     }
 }
