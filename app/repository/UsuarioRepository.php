@@ -18,11 +18,7 @@ public function findAll(){
 public function findById($id){
     return Usuario::find($id);
 }
-public function findByEmail($email){
-    return $this->Usuario->newQuery()
-    ->where('email', '=', $email->toString())
-    ->firstOrFail();
-}
+
 
 public function deleteById($id){
     $Usuario=$this->findById($id);

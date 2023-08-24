@@ -21,52 +21,33 @@ class UsuarioService{
         $this->fieldsValidator=$fieldsValidator;
     }
     public function createUsuario(array $data ):Usuario{
-       $rules=[
-        'email'=>'required|email|unique:usuarios',
-        'nome'=>'required|max:225|ctype_alpha',
-        'bi' => [
-            'required',
-            'string',
-            function ($bi, $value, $fail) {
-                if (strlen($value) !== 9) {
-                    $fail("$bi must be exactly 9 characters.");
-                }
-            },
-        ],
-        
-                'user_type' => [
-            'required',
-            Rule::in(['customer', 'seller']),
-            function ($user_type, $value, $fail) {
-                if (strcasecmp($value, 'customer') !== 0 && strcasecmp($value, 'seller') !== 0) {
-                    $fail("$user_type must be 'customer' or 'seller'.");
-                }
-            },
-        ],
-
-    ];
-       $messages=[
-                    'email.required'=>'The email field is required',
-                    'nome.required'=>'O nome e obrigatorio'
-       ];
-        $validator= Validator::make($data, $rules, $messages);
-        if($validator->fails()){
-            throw ValidationException::withMessages($validator->errors()->all());
-        }
+        $rules=[
+            'email'=>'required|email|unique:usuarios',
+            'name'=>'required|max:225|regex:/^[A-Za-z\s]+$/',
+            'bi' => 'required|string|unique:usuarios|max:9|min:9',
+        ];
+            $messages=[
+                'email.unique'=>'email deve ser nulo',
+                'email.email'=>'Introduza um email valido',
+                'bi.unique'=>'O numero de bi deve ser unico',
+                'bi.required'=>'O numero do documento e obrigatorio'
+            ];
+            $validator= Validator::make($data, $rules, $messages);
+            if($validator->fails()){
+                throw ValidationException::withMessages($validator->errors()->all());
+            }
         return $this->usuarioRepository->create($data);
-
     }
 
-    public function findUsuarioById($id){
-        return $this->usuarioRepository->findById($id);
-        
-    }
     public function findAll(){
         return $this->usuarioRepository->findAll();
     }
-    public function findByEmail($email){
-        return $this->usuarioRepository->findByEmail($email);
+
+
+    public function findUsuarioById($id){
+        return $this->usuarioRepository->findById($id);  
     }
+  
 
    
 }
