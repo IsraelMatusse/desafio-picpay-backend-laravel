@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,8 @@ Route::controller(UsuarioController::class)->group(function(){
    Route::post('/usuarios', 'store');
    Route::get('/usuarios/{id}', 'show');
 });
+
+Route::controller(TransactionController::class)->group(function(){
+    Route:: get('/transactions', 'index');
+    Route::post('/transactions', 'store');
+ });
