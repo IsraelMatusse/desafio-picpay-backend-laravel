@@ -28,8 +28,13 @@ class TransactionService{
 
    $sender=$this->usuarioService->findUsuarioById($data['sender_id']); 
     $receiver=$this->usuarioService->findUsuarioById($data['receiver_id']);
+    if($data['sender_id']==$data['receiver_id']){
+        throw ValidationException::withMessages([
+            'sender_id' => 'Usuário não pode enviar dinheiro para a propria conta',
+        ])  ;
+    }
 
-    if ($sender->balance < $data['amount'] && $sender->user_type !== 'costumer') {
+    if ($sender->balance < $data['amount'] || $sender->user_type !== 'costumer') {
         throw ValidationException::withMessages([
             'amount' => 'Usuário não tem saldo suficiente ou não é um cliente.',
         ]);
@@ -57,8 +62,6 @@ class TransactionService{
     // Create and return the transaction
     return $this->transactionRepository->create($transactionData);
 }
-        
-    
 
     public function index(){
         return $this->transactionRepository->all();
