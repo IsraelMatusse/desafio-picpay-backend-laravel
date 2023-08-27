@@ -16,7 +16,7 @@ public function findAll(){
 }
 
 public function findById($id){
-    return Usuario::find($id);
+    return Usuario::findOrFail($id);
 }
 
 

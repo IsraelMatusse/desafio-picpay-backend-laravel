@@ -49,6 +49,14 @@ class UsuarioService{
     }
   
 
+    public function updateUsuario(array $data, $userId)
+    {
+        $user = Usuario::findOrFail($userId);
+        $user->update($data);
+
+        return $user;
+    }
+
    
 }
 
