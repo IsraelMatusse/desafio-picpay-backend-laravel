@@ -17,34 +17,33 @@ class TransactionService{
     protected $transactionRepository;
     protected $usuarioService;
     protected $generateCodes;
+    protected $emailSenderService;
     
     
 
-    public function __construct(TransactionRepository $transactionRepository, UsuarioService $usuarioService){
+    public function __construct(TransactionRepository $transactionRepository, UsuarioService $usuarioService, EmailSenderService $emailSenderService){
         $this->transactionRepository=$transactionRepository;
         $this->usuarioService=$usuarioService;
+        $this->emailSenderService=$emailSenderService;
        
     }
 
- 
 
     public function create(array $data){
 
     $generateCodes= new GenerateCodes();
-    $currentDate= new DateTime();
-    $currentDateString = $currentDate->format('Y-m-d'); 
 
    $sender=$this->usuarioService->findUsuarioById($data['sender_id']); 
    $receiver=$this->usuarioService->findUsuarioById($data['receiver_id']);
     if($sender->id==$receiver->id){
         throw ValidationException::withMessages([
-            'sender_id' => 'Usuário não pode enviar dinheiro para a propria conta',
+            'sender_id' => 'The user cant send money to his account',
         ])  ;
     }
 
     if ($sender->balance < $data['amount'] || $sender->user_type !== 'costumer') {
         throw ValidationException::withMessages([
-            'amount' => 'Usuário não tem saldo suficiente ou não é um cliente.',
+            'amount' => 'Your ballance doesnt accept this transaction or the user is not a costumer.',
         ]);
     }
 
@@ -81,6 +80,19 @@ class TransactionService{
         'type' => 'c2b',
         'transaction_reference'=>$generateCodes->generateTransactionReference() 
     ];
+    $systemEmail="devmathusse451@gmail.com";
+    $subject="Transferencia";
+    $amount=$data['amount'];
+    $message="Caro cliente, acaba de receber o valor de $amount  mt na sua conta";
+
+    //sending notification to the receiver
+    $emailSender=[
+        'sender_email'=> $receiver->email,
+        'system_email'=>$systemEmail,
+        'subject'=>$subject,
+        'message'=>$message
+    ];
+    $this->emailSenderService->sendEmail($emailSender);
 
     // Create and return the transaction
     return $this->transactionRepository->create($transactionData);

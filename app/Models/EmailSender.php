@@ -11,7 +11,7 @@ class EmailSender extends Model
     protected $fillable=[
         'sender_email',
         'message',
-        'sistem_email',
+        'system_email',
         'subject'   
 ];
     protected $table="email_sender";

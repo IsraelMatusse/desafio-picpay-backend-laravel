@@ -15,14 +15,14 @@ class EmailSenderService{
    
     $emailSender=[
         'sender_email'=> $emailSender['sender_email'],
-        'sistem_email'=>$emailSender['sistem_email'],
+        'system_email'=>$emailSender['system_email'],
         'subject'=>$emailSender['subject'],
         'message'=>$emailSender['message']
     ];
 
     Mail::send([], [], function ($message) use ($emailSender) {
         $message->to($emailSender['sender_email'])
-                ->from($emailSender['sistem_email'])
+                ->from($emailSender['system_email'])
                 ->subject($emailSender['subject'])
                 ->setBody($emailSender['message'], 'text/plain');
     });
