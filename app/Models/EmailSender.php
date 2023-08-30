@@ -9,7 +9,7 @@ class EmailSender extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'sender_email',
+        'receiver_email',
         'message',
         'system_email',
         'subject'   

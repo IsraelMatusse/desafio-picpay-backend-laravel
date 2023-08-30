@@ -13,7 +13,8 @@ class Transacao extends Model
             'status',
             'type',
             'transaction_reference',
-            'sender_id', 'receiver_id'
+            'sender_id', 
+            'receiver_id'
     ];
 
     public function sender()
