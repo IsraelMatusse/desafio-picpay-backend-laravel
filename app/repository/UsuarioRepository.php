@@ -3,13 +3,13 @@
 namespace App\Repository;
 
 use App\Models\Usuario;
+use Illuminate\Support\Arr;
 
 class UsuarioRepository {
 
 public function create (array $data){
     return Usuario::create($data);
 }
-
 
 public function findAll(){
     return Usuario::all();
@@ -21,15 +21,16 @@ public function findById($id){
 
 
 public function deleteById($id){
-    $Usuario=$this->findById($id);
-    if($Usuario){
-    $Usuario->delete();
+    $usuario=$this->findById($id);
+    if($usuario){
+        Usuario::destroy($id);
     }
-    return null;
+   
 }
-public function update(array $data){
-    $Usuario->edit($data);
-  
+public function update(array $data, $usuarioId){
+    $usuario=Usuario::findOrFail($usuarioId);
+    $usuario->update($data);
+    return $usuario;
 }
 }
 

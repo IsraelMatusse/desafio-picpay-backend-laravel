@@ -22,15 +22,21 @@ class UsuarioService{
     }
     public function createUsuario(array $data ):Usuario{
         $rules=[
-            'email'=>'required|email|unique:usuarios',
-            'name'=>'required|max:225|regex:/^[A-Za-z\s]+$/',
-            'bi' => 'required|string|unique:usuarios|max:9|min:9',
-        ];
+            'email'=>['required', 'emai', 'unique:usuarios'],
+            'name'=>['required','max:225','regex:/^[A-Za-z\s]+$/'],
+            'bi' => ['required', 'string', 'unique:usuarios' ,'max:9', 'min:9'],
+            'password'=>'required','string', 'max:15min','min:5'];
+
             $messages=[
                 'email.unique'=>'email deve ser nulo',
                 'email.email'=>'Introduza um email valido',
                 'bi.unique'=>'O numero de bi deve ser unico',
-                'bi.required'=>'O numero do documento e obrigatorio'
+                'bi.required'=>'O numero do documento e obrigatorio',
+                'password.max'=>'O tamanho maximo de password sao 15 caracteres',
+                'password.min'=>'O tamanho minimo de password sao caracteres',
+                'bi.min'=>'O numero de Bi esta incompleto',
+                'bi.max'=>'Ultrapassou o numero maximo de digitos do bi'
+
             ];
             $validator= Validator::make($data, $rules, $messages);
             if($validator->fails()){

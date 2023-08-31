@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailSenderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
@@ -29,4 +30,8 @@ Route::controller(UsuarioController::class)->group(function(){
 Route::controller(TransactionController::class)->group(function(){
     Route:: get('/transactions', 'index');
     Route::post('/transactions', 'store');
+ });
+
+ Route::controller(EmailSenderController::class)->group(function(){
+    Route::post('/emails', 'store');
  });
